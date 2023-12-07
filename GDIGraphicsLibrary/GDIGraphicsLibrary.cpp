@@ -172,6 +172,9 @@ int GDIGraphicsLibrary::ProgramLoop()
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
             }
+            //TODO find out why this is needed.
+            if (msg.message == WM_QUIT)
+                break;
         }
     }
     return static_cast<int>(msg.wParam);
