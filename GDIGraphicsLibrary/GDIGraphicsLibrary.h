@@ -9,10 +9,14 @@ class GDIGraphicsLibrary
 public:
 	GDIGraphicsLibrary(HINSTANCE hInstance);
 	~GDIGraphicsLibrary();
-	bool Init();
+	bool Init(HINSTANCE hInstance, int nCmdShow);
 	int ProgramLoop();
 	LRESULT MsgProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam);
+	void Update();
+	void Render();
 private:
 	Rasteriser* _rasteriser{ 0 };
 	HINSTANCE _hInstance;
+	HWND _windowHandle;
+	double _timeSpan;
 };
