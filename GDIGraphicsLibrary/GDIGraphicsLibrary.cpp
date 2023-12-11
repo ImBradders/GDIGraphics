@@ -231,6 +231,10 @@ LRESULT GDIGraphicsLibrary::MsgProc(HWND windowHandle, UINT message, WPARAM wPar
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+    case WM_SIZE:
+        _bitmap->Create(windowHandle);
+        InvalidateRect(windowHandle, NULL, FALSE);
+        break;
     default:
         return DefWindowProc(windowHandle, message, wParam, lParam);
     }
