@@ -8,7 +8,12 @@ public:
 	Rasteriser();
 	~Rasteriser();
 
-	void Update() const;
+	void Update(const Bitmap* bitmap);
 	void Render(Bitmap* bitmap) const;
+
+private:
+	int _x;
+	int _y;
+	int _size;
 };
 

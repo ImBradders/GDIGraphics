@@ -5,7 +5,7 @@
 #include "GDIGraphicsLibrary.h"
 
 #define MAX_LOADSTRING 100
-#define DEFAULT_FRAMERATE 60
+#define DEFAULT_FRAMERATE 24
 
 GDIGraphicsLibrary* _this = NULL;
 
@@ -239,7 +239,7 @@ LRESULT GDIGraphicsLibrary::MsgProc(HWND windowHandle, UINT message, WPARAM wPar
 
 void GDIGraphicsLibrary::Update()
 {
-    _rasteriser->Update();
+    _rasteriser->Update(_bitmap);
 }
 
 void GDIGraphicsLibrary::Render()
