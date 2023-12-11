@@ -15,6 +15,7 @@ public:
 	void Update();
 	void Render();
 private:
+	Bitmap* _bitmap{ 0 };
 	Rasteriser* _rasteriser{ 0 };
 	HINSTANCE _hInstance;
 	HWND _windowHandle;

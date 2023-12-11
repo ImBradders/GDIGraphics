@@ -118,7 +118,8 @@ GDIGraphicsLibrary::GDIGraphicsLibrary(HINSTANCE hInstance)
 {
     _hInstance = hInstance;
     _windowHandle = NULL;
-    _rasteriser = NULL;
+    _bitmap = new Bitmap();
+    _rasteriser = new Rasteriser();
     _timeSpan = 0;
 }
 
@@ -137,6 +138,10 @@ bool GDIGraphicsLibrary::Init(HINSTANCE hInstance, int nCmdShow)
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
+        return false;
+
+    //if we cannot create a bitmap, we cannot go any further.
+    if (!_bitmap->Create(hWnd))
         return false;
 
     ShowWindow(hWnd, nCmdShow);
@@ -215,28 +220,11 @@ LRESULT GDIGraphicsLibrary::MsgProc(HWND windowHandle, UINT message, WPARAM wPar
 {
     switch (message)
     {
-    case WM_COMMAND:
-    {
-        int wmId = LOWORD(wParam);
-        // Parse the menu selections:
-        switch (wmId)
-        {
-        case IDM_ABOUT:
-            DialogBox(_hInstance, MAKEINTRESOURCE(IDD_ABOUTBOX), windowHandle, About);
-            break;
-        case IDM_EXIT:
-            DestroyWindow(windowHandle);
-            break;
-        default:
-            return DefWindowProc(windowHandle, message, wParam, lParam);
-        }
-    }
-    break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(windowHandle, &ps);
-        //BitBlt(hdc, 0, 0, _bitmap.GetWidth(), _bitmap.GetHeight(), _bitmap.GetDC(), 0, 0, SRCCOPY);
+        BitBlt(hdc, 0, 0, _bitmap->GetWidth(), _bitmap->GetHeight(), _bitmap->GetDC(), 0, 0, SRCCOPY);
         EndPaint(windowHandle, &ps);
     }
     break;
@@ -251,10 +239,10 @@ LRESULT GDIGraphicsLibrary::MsgProc(HWND windowHandle, UINT message, WPARAM wPar
 
 void GDIGraphicsLibrary::Update()
 {
+    _rasteriser->Update();
 }
 
 void GDIGraphicsLibrary::Render()
 {
+    _rasteriser->Render(_bitmap);
 }
-
-
